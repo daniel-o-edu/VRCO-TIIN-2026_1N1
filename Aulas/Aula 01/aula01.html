@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aula 01 - O que é Versionamento e Primeiros Passos com Git</title>
+<style>
+ body {
+ margin: 0; 
+ padding: 0; 
+ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ background-color: #f8f9fa; 
+ color: #212529;
+ display: flex; 
+ flex-direction: column; 
+ height: 100vh;
+ overflow: hidden;
+ }
+ .slide-container {
+ width: 95vw;
+ height: 85vh;
+ margin: auto;
+ display: flex; 
+ align-items: center; 
+ justify-content: center;
+ padding: 20px; 
+ box-sizing: border-box; 
+ position: relative;
+ }
+ .slide {
+ display: none; 
+ width: 100%; 
+ max-width: 1200px; 
+ height: 80vh;
+ background: #ffffff; 
+ border-radius: 12px;
+ box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+ padding: 50px;
+ font-size: 24px; 
+ line-height: 1.5; 
+ overflow-y: auto;
+ }
+ .slide.active { 
+ display: block; 
+ animation: fadeIn 0.4s ease-in-out;
+ }
+ @keyframes fadeIn {
+ from { opacity: 0; transform: translateY(10px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+ h1, h2, h3, h4 { 
+ color: #0d6efd; 
+ margin-top: 0; 
+ }
+ code, pre { 
+ background: #e9ecef; 
+ padding: 10px 15px; 
+ border-radius: 8px; 
+ font-family: 'Courier New', Courier, monospace; 
+ display: block; 
+ font-size: 20px;
+ overflow-x: auto;
+ white-space: pre-wrap;
+ }
+ .controls {
+ height: 80px; 
+ background: #ffffff; 
+ border-top: 1px solid #dee2e6;
+ display: flex; 
+ justify-content: space-between; 
+ align-items: center; 
+ padding: 0 50px;
+ }
+ button {
+ background: #0d6efd; 
+ color: white; 
+ border: none; 
+ padding: 12px 25px;
+ font-size: 18px; 
+ border-radius: 8px; 
+ cursor: pointer;
+ transition: background 0.2s;
+ }
+ button:hover {
+ background: #0b5ed7;
+ }
+ button:disabled { 
+ background: #adb5bd; 
+ cursor: not-allowed; 
+ }
+ .progress { 
+ font-size: 20px; 
+ font-weight: bold; 
+ color: #495057;
+ }
+ .slide-label { font-weight: bold; text-transform: uppercase; color: #6c757d; margin-bottom: 20px; font-size: 18px; letter-spacing: 1px; }
+ .callout { padding: 20px 30px; border-radius: 8px; margin: 20px 0; border-left: 8px solid; }
+ .callout.blue { background: #cce5ff; border-color: #004085; color: #004085; }
+ .callout.green { background: #d4edda; border-color: #155724; color: #155724; }
+ .callout.red { background: #f8d7da; border-color: #721c24; color: #721c24; }
+ .callout.yellow { background: #fff3cd; border-color: #856404; color: #856404; }
+ .section-header { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; }
+ .section-num { font-size: 80px; font-weight: bold; color: #e9ecef; margin-bottom: -20px; }
+ .section-header h2 { font-size: 48px; color: #0d6efd; margin-bottom: 20px; }
+ img { max-width: 100%; height: auto; border-radius: 8px; margin: 20px 0; border: 1px solid #dee2e6; }
+ table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 20px; }
+ th, td { border: 1px solid #dee2e6; padding: 12px; text-align: left; }
+ th { background-color: #e9ecef; color: #0d6efd; }
+</style>
+</head>
+<body>
+ <div class="slide-container" id="slides">
+
+ <div class="slide active">
+ <div class="slide-label">Aula 01</div>
+ <h1>Aula 01 - O que é Versionamento e Primeiros Passos com Git</h1>
+ <p><strong>Descrição:</strong> Introdução ao conceito e ao histórico das metodologias de versionamento, focando em como elas evitam a perda de código em projetos de TI. A aula será totalmente prática, voltada para a instalação e configuração inicial do Git nos computadores do laboratório.</p>
+ </div>
+ 
+ <div class="slide">
+ <div class="section-header">
+ <div class="section-num">01</div>
+ <h2>1. Conceito e Evolução Histórica das Metodologias de Versionamento</h2>
+ </div>
+ </div>
+
+ <div class="slide">
+ <h2>1.1 O que é Versionamento de Código (VCS / SCM)?</h2>
+ <ul>
+ <li>O versionamento de código (VCS – <em>Version Control System</em> ou SCM – <em>Source Code Management</em>) é definido como o ato de manter um histórico organizado de todas as versões, atualizações e modificações de um software ao longo de sua existência.</li>
+ <li>Ele é amplamente utilizado no desenvolvimento de software para controlar o histórico de alterações tanto do código-fonte quanto da documentação.</li>
+ <li>Trata-se de uma ferramenta indispensável para o mercado de trabalho, sendo frequentemente exigida por empresas em processos seletivos e vagas de desenvolvimento.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>1.2 A Analogia da "Save de Videogame"</h2>
+ <p>Uma excelente alternativa para explicar o versionamento de código, que foca mais na segurança e experimentação do que no aspecto de "auditoria" é a <strong>Analogia do Checkpoints</strong>.</p>
+ <p>No desenvolvimento de software, escrever código é como avançar nas fases de um jogo difícil e complexo. Se você tentar jogar o jogo inteiro de uma vez só sem salvar, um único erro (ou chefão) pode fazer você perder todo o progresso e obrigá-lo a começar do zero. O versionamento de código funciona como o sistema de saves desse jogo.</p>
+ <p>Veja como os conceitos se encaixam nessa analogia:</p>
+ <ul>
+ <li><strong>Commits = Checkpoints (Pontos de Salvamento):</strong> Cada vez que você termina uma parte importante do código (cria uma tela nova, arruma um bug), você faz um "Save" (que no Git chamamos de <em>Commit</em>). Se na semana que vem você tentar adicionar algo novo e acabar quebrando o projeto inteiro ("Game Over"), você não precisa se desesperar. Basta dar um "Load" e voltar o código exatamente para o último checkpoint onde tudo estava funcionando perfeitamente.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>1.2 A Analogia da "Save de Videogame" (Continuação)</h2>
+ <ul>
+ <li><strong>Mensagens de Commit = Nomes dos Saves:</strong> Assim como em alguns jogos antigos você nomeava seu save para lembrar onde estava (ex: <em>"Antes do chefão de fogo"</em>, <em>"Logo após pegar a espada"</em>), no versionamento você escreve uma mensagem em cada commit (ex: <em>"Adicionado botão de login"</em>, <em>"Corrigido erro na cor do menu"</em>). O histórico do projeto vira a sua tela de "Carregar Jogo", onde você vê todas as etapas da sua jornada.</li>
+ </ul>
+ </div>
+ <div class="slide">
+  <h2>1.2 A Analogia da "Save de Videogame" (Continuação)</h2>
+ <ul>
+ <li><strong>Branches = Slots de Save Alternativos (Caminhos Paralelos):</strong> Imagine que você está jogando e chega em uma bifurcação: você quer testar um caminho perigoso, mas tem medo de estragar o seu save com a "partida perfeita". O que você faz? Copia o jogo para o "Slot 2" e testa lá.</li>
+ <li>No Git, isso se chama criar uma <em>Branch</em> (ramificação). Você cria um caminho paralelo seguro para testar ideias novas. Se a ideia for incrível, você pode mesclar esse progresso com o seu jogo principal (processo chamado de <em>Merge</em>). Se der tudo errado, você simplesmente apaga o "Slot 2" e volta para o seu jogo principal intacto.</li>
+ </ul>
+ </div>
+  <div class="slide">
+  <h2>1.2 A Analogia da "Save de Videogame" (Continuação)</h2>
+  <ul>
+ <li><strong>GitHub / Servidor Remoto = Multiplayer (Nuvem):</strong> Se o jogo for cooperativo, o servidor (como o GitHub ou GitLab) é o "Save na Nuvem" que junta o progresso de todos os jogadores. Ele organiza as coisas para que o avanço do Jogador 1 não sobrescreva ou apague os itens que o Jogador 2 conseguiu, fundindo as conquistas de todos num jogo só.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>1.3 A Evolução Histórica das Metodologias</h2>
+ <ol>
+ <li><strong>Sistemas Locais de Controle de Versão (VCS Local):</strong>
+ <ul>
+ <li><strong>Funcionamento:</strong> O método tradicional consistia em copiar arquivos manualmente para outros diretórios ou manter um banco de dados simples na própria máquina local.</li>
+ <li><strong>Problema:</strong> Bastante propenso a erros operacionais e com alto risco de perda total dos dados caso o disco rígido da máquina fosse corrompido.</li>
+ </ul>
+ </li>
+  </ol>
+ </div>
+
+  <div class="slide">
+ <h2>1.3 A Evolução Histórica das Metodologias</h2>
+<ol start="2">
+ <li><strong>Sistemas Centralizados de Controle de Versão (CVCS):</strong>
+ <ul>
+ <li><strong>Exemplos:</strong> CVS e Subversion (SVN).</li>
+ <li><strong>Funcionamento:</strong> Possuem um único servidor central que armazena todos os arquivos versionados, enquanto os clientes baixam (<em>checkout</em>) os arquivos para suas máquinas.</li>
+ <li><strong>Vantagens e Limitações:</strong> Permitem saber o que cada pessoa da equipe está fazendo e dão controle administrativo sobre as permissões. No entanto, se o servidor central ficar fora do ar ou sofrer uma falha no disco sem backups atualizados, todo o histórico do projeto é perdido.</li>
+ </ul>
+ </li>
+ </ol>
+ </div>
+
+ <div class="slide">
+ <h2>1.3 A Evolução Histórica das Metodologias (Continuação)</h2>
+ <ol start="3">
+ <li><strong>Sistemas Distribuídos de Controle de Versão (DVCS):</strong>
+ <ul>
+ <li><strong>Exemplos:</strong> Git, Mercurial e Bazaar.</li>
+ <li><strong>Funcionamento:</strong> Os clientes não apenas baixam a última versão dos arquivos, mas espelham (<em>clonam</em>) o repositório completo com todo o seu histórico.</li>
+ <li><strong>Vantagem:</strong> Cada cópia local atua como um backup completo do servidor central.</li>
+ </ul>
+ </li>
+ </ol>
+ </div>
+
+ <div class="slide">
+ <h2>1.4 A Origem do Git e Linus Torvalds</h2>
+ <p>A origem do Git está diretamente ligada à necessidade de gerir um dos maiores projetos de software de código aberto do mundo: o kernel do sistema operacional Linux.</p>
+ <h3>Uma Breve História do Git</h3>
+ <p>Como muitas coisas na vida, o Git começou com um pouco de destruição criativa e uma controvérsia de fogo.</p>
+ <p>O núcleo do Linux é um projeto de código aberto com um escopo bastante grande. A maior parte da vida da manutenção do núcleo Linux (1991-2002), as mudanças no código eram compartilhadas como correções e arquivos. Em 2002, o projeto do núcleo do Linux começou por usar uma DVCS proprietária chamada de BitKeeper.</p>
+ <p>Em 2005, a relação entre a comunidade que desenvolveu o núcleo do Linux e a empresa que desenvolveu BitKeeper quebrou, e a ferramenta passou a ser paga. Isto alertou a comunidade que desenvolvia o Linux (e especialmente Linux Torvalds, o criador do Linux) a desenvolver a sua própria ferramenta baseada em lições aprendidas ao usar o BitKeeper.</p>
+ </div>
+
+ <div class="slide">
+ <h2>1.4 A Origem do Git e Linus Torvalds (Continuação)</h2>
+ <p>Algumas das metas do novo sistema eram as seguintes:</p>
+ <ul>
+ <li>Velocidade</li>
+ <li>Projeto simples</li>
+ <li>Forte suporte para desenvolvimento não-linear (milhares de ramos paralelos)</li>
+ <li>Completamente distribuído</li>
+ <li>Capaz de lidar com projetos grandes como o núcleo do Linux com eficiência</li>
+ </ul>
+ <p>Desde o seu nascimento em 2005, Git evoluiu e amadureceu para ser fácil de usar e ainda reter estas qualidades iniciais. Ele é incrivelmente rápido, é muito eficiente com projetos grandes, e ele tem um incrível sistema de ramos para desenvolvimento não linear</p>
+ </div>
+
+ <div class="slide">
+ <h2>Objetivos e Princípios de Design do Git</h2>
+ <p>Ao criar o Git, Torvalds estabeleceu pilares fundamentais para resolver os problemas enfrentados na altura:</p>
+ <ol>
+ <li><strong>Velocidade e Desempenho</strong>:
+ <ul>
+ <li>O sistema precisava de ser extremamente rápido a executar operações e a gerir grandes projetos de software.</li>
+ </ul>
+ </li>
+ <li><strong>Arquitetura de Desenvolvimento Distribuído</strong>:
+ <ul>
+ <li>Em vez de depender de um servidor centralizado onde todos os desenvolvimentos tinham de ser submetidos diretamente, o Git foi projetado para ser <strong>distribuído</strong>.</li>
+ <li>Cada programador possui uma cópia integral do repositório na sua máquina local, permitindo trabalhar de forma autónoma.</li>
+ </ul>
+ </li>
+ </ol>
+ </div>
+
+ <div class="slide">
+ <h2>Objetivos e Princípios de Design do Git (Continuação)</h2>
+ <ol start="3">
+ <li><strong>Ramificações Paralelas e Mesclagem (<em>Branches</em> e <em>Merges</em>)</strong>:
+ <ul>
+ <li>O Git foi desenhado para suportar milhares de ramificações paralelas (<em>branches</em>) simultâneas.</li>
+ <li>Isto permite que diferentes programadores trabalhem em áreas distintas do código (por exemplo, na criação de <em>drivers</em>, funcionalidades ou correção de erros) sem interferir no trabalho uns dos outros.</li>
+ <li>Quando o trabalho numa ramificação está concluído e testado, as alterações são integradas (<em>merge</em>) na ramificação principal.</li>
+ </ul>
+ </li>
+ <li><strong>Histórico Detalhado e Rastreabilidade</strong>:
+ <ul>
+ <li>O Git funciona como um registo minucioso de atualizações, guardando o histórico completo de modificações do software.</li>
+ <li>Em cada alteração salva (<em>commit</em>), fica registrado quem alterou, em que data a alteração foi feita, quais os arquivos modificados e o que foi exatamente alterado em cada um.</li>
+ </ul>
+ </li>
+ </ol>
+ <h3>Filosofia <em>Open Source</em></h3>
+ <p>O Git foi disponibilizado como software <strong>Open Source</strong> (código aberto) e gratuito. Qualquer pessoa ou empresa pode aceder ao seu código-fonte, utilizar a ferramenta gratuitamente e contribuir para a sua evolução contínua.</p>
+ </div>
+
+ <div class="slide">
+ <div class="section-header">
+ <div class="section-num">02</div>
+ <h2>2. Como o Versionamento Evita a Perda de Código em Projetos de TI</h2>
+ </div>
+ </div>
+
+ <div class="slide">
+ <h2>2.1 Principais Mecanismos de Proteção contra Perda de Código</h2>
+ <ul>
+ <li><strong>Histórico Abrangente e Rastreabilidade:</strong> Permite rastrear exatamente quem introduziu determinado bug ("kakinho") no sistema e quando essa alteração ocorreu, facilitando a identificação e correção de falhas.</li>
+ <li><strong>Resgate de Versões Antigas e Estáveis:</strong> Se uma nova alteração quebrar o sistema, é possível reverter o código para uma versão anterior que sabidamente funcionava.</li>
+ <li><strong>Redundância e Distribuição:</strong> Como cada desenvolvedor possui uma cópia integral do repositório em seu computador, os dados estão geograficamente distribuídos e seguros.</li>
+ <li><strong>Proteção em Repositórios Remotos (Nuvem):</strong> O envio do código para plataformas remotas, como GitHub ou GitLab, protege o projeto contra acidentes físicos na máquina local (quebra de hardware, roubos ou incêndios).</li>
+ <li><strong>Reversão Simples de Erros Operacionais:</strong> Se um arquivo ou pasta for deletado acidentalmente na máquina local, o repositório permite restaurar o estado original com comandos simples.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>2.2 Comparação Prática: Sem Versionamento vs. Com Versionamento</h2>
+ <ul>
+ <li><strong>Sem Versionamento:</strong> O desenvolvedor faz cópias manuais de pastas com nomes como projeto_v1, projeto_final, projeto_final_mesmo. Não há registro lógico do que mudou entre uma pasta e outra, gerando confusão e perda irreparável de trechos de código descartados por engano.</li>
+ <li><strong>Com Versionamento:</strong> O projeto fica em uma única pasta limpa. O histórico de todas as alterações fica armazenado de forma transparente e organizada dentro da estrutura interna do versionador.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <div class="section-header">
+ <div class="section-num">03</div>
+ <h2>3. Arquitetura do Git, Instalação e Configuração Inicial</h2>
+ </div>
+ </div>
+
+ <div class="slide">
+ <h2>3.1 Funcionamento Técnico Interno: Diffs vs. Fotografias</h2>
+ <ul>
+ <li>Diferente de outros sistemas antigos que salvavam cópias completas dos arquivos a cada modificação, o Git trabalha armazenando a <em>diff</em> (diferença).</li>
+ <li>A <em>diff</em> guarda apenas as linhas que foram adicionadas, alteradas ou removidas.</li>
+ <li>Como o Git armazena esse histórico incremental a partir do primeiro <em>commit</em> (a primeira gravação), ele consegue reconstruir o estado de qualquer arquivo em qualquer ponto do tempo.</li>
+ </ul>
+ <h2>3.2 Trabalho com Ramificações (<em>Branches</em>) Paralelas</h2>
+ <ul>
+ <li><strong>Ramificação Principal (main ou master):</strong> Contém a versão estável do software, pronta para uso pelo cliente final.</li>
+ <li><strong>Ramificações Secundárias (<em>Feature Branches</em>):</strong> Permitem que múltiplos desenvolvedores criem ramificações paralelas para trabalhar em funcionalidades específicas sem interferir no código principal.</li>
+ <li><strong>Mesclagem (<em>Merge</em>):</strong> Processo de juntar as alterações finalizadas e testadas de uma ramificação paralela de volta à ramificação principal.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>3.3 Instalação</h2>
+ <ol>
+ <li><strong>Windows:</strong> Executar o instalador do <em>Git</em> para disponibilizar o terminal <strong>Git Bash</strong>.</li>
+ <li><strong>Linux (Ubuntu/Debian):</strong> Abrir o terminal e executar o gerenciador de pacotes:
+ <pre><code>sudo apt update  
+sudo apt install git</code></pre>
+ </li>
+ <li><strong>Verificação de Instalação:</strong><br>
+ No terminal/prompt, digite o comando abaixo para confirmar que o Git foi instalado corretamente:
+ <pre><code>git --version</code></pre>
+ </li>
+ </ol>
+ </div>
+
+ <div class="slide">
+ <h2>3.4 Configuração Inicial Obrigatória do Usuário</h2>
+ <p>Antes de realizar qualquer commit, é fundamental identificar a autoria das alterações para que o histórico registre corretamente quem é o autor.</p>
+ <p>Execute os comandos a seguir no terminal do laboratório:</p>
+ <ol>
+ <li><strong>Configurar o nome do desenvolvedor:</strong>
+ <pre><code>git config --global user.name "Seu Nome Completo"</code></pre>
+ </li>
+ <li><strong>Configurar o e-mail do desenvolvedor:</strong>
+ <pre><code>git config --global user.email "seu.email@exemplo.com"</code></pre>
+ </li>
+ <li><strong>Verificar as configurações aplicadas:</strong>
+ <pre><code>git config --list</code></pre>
+ </li>
+ </ol>
+ </div>
+
+ <div class="slide">
+ <div class="section-header">
+ <div class="section-num">04</div>
+ <h2>4. Prática de Laboratório – O Ciclo Básico de Trabalho no Git</h2>
+ </div>
+ </div>
+
+ <div class="slide">
+ <h2>4.1 Entendendo as Três Áreas do Git</h2>
+ <p>Compreender as três áreas principais do Git é fundamental para dominar o fluxo de trabalho desta ferramenta de controle de versões. O Git opera movendo os arquivos do seu projeto entre estes três "ambientes" locais à medida que consolida as suas alterações. Abaixo, detalhamos o que cada uma destas áreas representa e como interagem entre si:</p>
+ </div>
+ 
+ <div class="slide">
+  <h2>4.1 Entendendo as Três Áreas do Git</h2>
+ <h3>1. Working Directory (Diretório de Trabalho)</h3>
+ <p>O Diretório de Trabalho é, de forma simples, a pasta física no seu computador onde os arquivos do projeto residem e estão a ser editados.</p>
+ <ul>
+ <li><strong>O que acontece aqui:</strong> É a sua área de rascunho ou "mesa de trabalho". Quando abre os arquivos no seu editor de código e escreve novas linhas de código, elimina arquivos ou guarda modificações, todas essas ações ocorrem no Working Directory.</li>
+ <li><strong>Estado dos arquivos:</strong> O Git está sempre atento a esta pasta. Os arquivos aqui podem estar <em>Untracked</em> (arquivos novos que o Git ainda não conhece) ou <em>Modified</em> (arquivos que o Git já conhece, mas que sofreram alterações recentes).</li>
+ <li><strong>Comando principal:</strong> Para que o Git comece a preparar estas alterações para serem guardadas, utiliza-se o comando <code>git add &lt;nome-do-arquivo&gt;</code></li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>4.1 Entendendo as Três Áreas do Git (Continuação)</h2>
+ <h3>2. Staging Area / Stage (Área de Preparação)</h3>
+ <p>Também conhecida tecnicamente como "Index", a Staging Area é um ambiente intermediário (virtual) entre a sua área de rascunho e a base de dados final.</p>
+ <ul>
+ <li><strong>O que acontece aqui:</strong> Funciona como uma "zona de carga" ou um "carrinho de compras". Em vez de o Git gravar obrigatoriamente todos os arquivos que alterou no Diretório de Trabalho de uma só vez, a Staging Area permite-lhe selecionar a dedo exatamente quais os arquivos (ou até pedaços de código) que farão parte da próxima gravação oficial.</li>
+ <li><strong>Vantagem:</strong> Permite agrupar alterações de forma lógica. Por exemplo, se alterou o design da página e corrigiu um bug em arquivos completamente diferentes, pode colocar apenas os arquivos do design na Staging Area, fazer uma gravação, e depois fazer o mesmo para o bug, mantendo o histórico de trabalho limpo e compreensível.</li>
+ <li><strong>Comando principal:</strong> Para consolidar o que está na Área de Preparação, utiliza-se o comando <code>git commit</code></li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>4.1 Entendendo as Três Áreas do Git (Continuação)</h2>
+ <h3>3. Local Repository (Repositório Local)</h3>
+ <p>O Repositório Local é a base de dados oficial do Git na sua máquina. É uma estrutura oculta (armazenada dentro da pasta .git na raiz do seu projeto) que contém todo o histórico de versões.</p>
+ <ul>
+ <li><strong>O que acontece aqui:</strong> Quando executa um commit, o Git tira uma espécie de "fotografia" (<em>snapshot</em>) exata ao estado atual dos arquivos que estavam na Staging Area e guarda-os permanentemente neste repositório.</li>
+ <li><strong>Segurança e Histórico:</strong> A partir do momento em que um arquivo entra no Repositório Local através de um commit, ele está seguro. É a partir desta área que pode viajar no tempo para versões mais antigas do código, verificar quem fez o quê, criar novas ramificações (<em>branches</em>) ou desfazer erros crônicos.</li>
+ <li><strong>Comando principal:</strong> Com as alterações seguras no Repositório Local, utiliza-se o comando <code>git push</code> para sincronizar e enviar estas "fotografias" para um servidor remoto (como o GitHub ou o GitLab), partilhando-as com a restante equipe.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>Resumo do Fluxo de Trabalho (Workflow):</h2>
+ <ol>
+ <li><strong>Modifica</strong> os arquivos à vontade no <strong>Working Directory</strong>.</li>
+ <li><strong>Prepara</strong> (faz o <em>stage</em>) das alterações que deseja consolidar, movendo-as para a <strong>Staging Area</strong>.</li>
+ <li><strong>Grava</strong> (faz o <em>commit</em>) dessas alterações selecionadas, armazenando a versão permanentemente no seu <strong>Local Repository</strong>.</li>
+ </ol>
+ </div>
+ 
+ <div class="slide">
+ <h2>4.2 Passo a Passo Prático no Terminal</h2>
+ <h3>Passo 1: Criar a pasta do projeto e inicializar o repositório</h3>
+ <p>No terminal do laboratório, execute:</p>
+ <pre><code># Criar uma nova pasta para a aula  
+mkdir projeto-aula01  
+  
+# Entrar na pasta criada  
+cd projeto-aula01  
+  
+# Inicializar o repositório Git local  
+git init</code></pre>
+ <ul>
+ <li><strong>O que aconteceu?</strong> O comando <code>git init</code> cria uma pasta oculta chamada .git, transformando aquele diretório em um repositório controlado pelo Git.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>4.2 Passo a Passo Prático no Terminal (Continuação)</h2>
+ <h3>Passo 2: Criar um arquivo e checar o estado (git status)</h3>
+ <p>Crie um arquivo chamado index.html ou notificacoes.txt dentro do diretório do projeto e digite o comando:</p>
+ <pre><code>git status</code></pre>
+ <ul>
+ <li><strong>Explicação:</strong> O comando <code>git status</code> exibe a situação atual do repositório. Ele mostrará que o arquivo recém-criado está no estado <em>Untracked</em> (não rastreado).</li>
+ </ul>
+ </div>
+ 
+  <div class="slide">
+   <h2>4.2 Passo a Passo Prático no Terminal (Continuação)</h2>
+ <h3>Passo 3: Adicionar o arquivo à área de preparação (git add)</h3>
+ <p>Para colocar o arquivo na área de preparação (<em>Staging Area</em>):</p>
+ <pre><code># Adicionar um arquivo específico:  
+git add index.html  
+  
+# Ou adicionar todos os arquivos modificados da pasta:  
+git add .</code></pre>
+ <ul>
+ <li><strong>Explicação:</strong> O comando <code>git add</code> seleciona os arquivos que farão parte da próxima versão registrada.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <h2>4.2 Passo a Passo Prático no Terminal (Continuação)</h2>
+ <h3>Passo 4: Efetivar a versão no histórico (git commit)</h3>
+ <p>Para salvar permanentemente a versão no histórico local:</p>
+ <pre><code>git commit -m "Estrutura inicial do projeto"</code></pre>
+ <ul>
+ <li><strong>Explicação:</strong> O comando <code>git commit</code> grava a "fotografia" do estado dos arquivos selecionados. O parâmetro <code>-m</code> especifica a mensagem explicativa associada àquele salvamento.</li>
+ </ul>
+ </div>
+ 
+  <div class="slide">
+   <h2>4.2 Passo a Passo Prático no Terminal (Continuação)</h2>
+ <h3>Passo 5: Visualizar o histórico de versões (git log)</h3>
+ <p>Para consultar todo o histórico salvo no projeto:</p>
+ <pre><code>git log</code></pre>
+ <ul>
+ <li><strong>Explicação:</strong> O comando <code>git log</code> exibe a lista de todas as versões salvas, contendo o código identificador (hash), autor, data e a mensagem descritiva de cada commit.</li>
+ </ul>
+ </div>
+
+ <div class="slide">
+ <div class="section-header">
+ <div class="section-num">05</div>
+ <h2>5. Exercício Prático Guiado, Boas Práticas e Encerramento</h2>
+ </div>
+ </div>
+
+ <div class="slide">
+ <h2>5.1 Exercício Guiado de Fixação</h2>
+ <p><strong>Instruções:</strong></p>
+ <ol>
+ <li>Abra o arquivo criado (index.html) e adicione duas novas linhas de código ou texto.</li>
+ <li>Execute <code>git status</code> no terminal e observe que o Git identificou a modificação no arquivo (<em>Modified</em>).</li>
+ <li>Adicione a alteração ao Stage usando <code>git add .</code>.</li>
+ <li>Faça o commit utilizando uma mensagem clara, por exemplo: <code>git commit -m "Adiciona o menu principal"</code>.</li>
+ <li>Execute <code>git log</code> e confirme que agora existem 2 commits registrados no histórico.</li>
+ </ol>
+ </div>
+
+ <div class="slide">
+ <h2>5.2 Boas Práticas para Escrita de Mensagens de Commit</h2>
+ <ul>
+ <li><strong>Seja claro e conciso:</strong> A mensagem do histórico deve explicar de forma conceitual o que foi implementado ou alterado, e não apenas listar linhas de código.</li>
+ <li><strong>Exemplo Correto:</strong> "Adiciona verificação de saldo na conta para impedir saques sem limite".</li>
+ <li><strong>Exemplo Incorreto:</strong> "Alterado if (!haSaldo) na linha 15".</li>
+ </ul>
+ </div>
+ 
+ <div class="slide">
+ <h2>5.3 Resumo dos Comandos da Aula</h2>
+ <ul>
+ <li><code>git config --global user.name / user.email</code>: Configura a identidade do usuário.</li>
+ <li><code>git init</code>: Inicia o versionamento na pasta do projeto.</li>
+ <li><code>git status</code>: Mostra o estado atual dos arquivos.</li>
+ <li><code>git add .</code>: Envia as alterações para a área de preparação (<em>stage</em>).</li>
+ <li><code>git commit -m "mensagem"</code>: Grava permanentemente a versão no histórico.</li>
+ <li><code>git log</code>: Exibe o histórico de alterações gravadas.</li>
+ </ul>
+ </div>
+</div>
+
+ <div class="controls">
+ <button id="prevBtn" onclick="prevSlide()" disabled>Anterior</button>
+ <div class="progress"><span id="current">1</span> / <span id="total"></span></div>
+ <button id="nextBtn" onclick="nextSlide()">Próximo</button>
+ </div>
+
+ <script>
+ let currentSlideIndex = 0;
+ const slides = document.querySelectorAll('.slide');
+ const totalSlides = slides.length;
+ const currentIndicator = document.getElementById('current');
+ const totalIndicator = document.getElementById('total');
+ const prevBtn = document.getElementById('prevBtn');
+ const nextBtn = document.getElementById('nextBtn');
+
+ totalIndicator.textContent = totalSlides;
+
+ function updateView() {
+ slides.forEach((slide, index) => {
+ slide.classList.remove('active');
+ if (index === currentSlideIndex) {
+ slide.classList.add('active');
+ }
+ });
+ currentIndicator.textContent = currentSlideIndex + 1;
+ 
+ prevBtn.disabled = currentSlideIndex === 0;
+ nextBtn.disabled = currentSlideIndex === totalSlides - 1;
+ }
+
+ function nextSlide() {
+ if (currentSlideIndex < totalSlides - 1) {
+ currentSlideIndex++;
+ updateView();
+ }
+ }
+
+ function prevSlide() {
+ if (currentSlideIndex > 0) {
+ currentSlideIndex--;
+ updateView();
+ }
+ }
+
+ document.addEventListener('keydown', (e) => {
+ if (e.key === 'ArrowRight' || e.key === 'PageDown') nextSlide();
+ if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+ });
+ </script>
+</body>
+</html>
