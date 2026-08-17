@@ -1,0 +1,48 @@
+=================================================================================
+               LAUDO DE AUDITORIA TÉCNICA - VERSIONAMENTO E COLABORAÇÃO
+=================================================================================
+
+IDENTIFICAÇÃO:
+- Dupla Executora: [Nome Aluno A] e [Nome Aluno B]
+- Dupla Auditora:  [Nome Aluno C] e [Nome Aluno D]
+- Link do Repositório Auditado: https://github.com/_______________________________
+- Data de Auditoria: ____/____/2026
+
+---------------------------------------------------------------------------------
+CHECKLIST DE VERIFICAÇÃO TÉCNICA (Marque [X] para Aprovado ou [ ] para Reprovado)
+---------------------------------------------------------------------------------
+
+1. CONFIGURAÇÃO E AMBIENTE
+   [ ] Identidade de autor configurada corretamente (user.name e user.email).
+   [ ] Configuração do modo diff3 aplicada no ambiente Git.
+
+2. CONTROLE DE VERSÕES E REGRAS DE SEGURANÇA
+   [ ] Arquivo .gitignore existente e impedindo o rastreamento de arquivos .log e .env.
+   [ ] Histórico de commits contendo mensagens conceituais e profissionais (sem "mudei coisas").
+   [ ] Presença das Tags Anotadas (v0.1.0 e v1.0.0) registradas localmente e no GitHub.
+
+3. FLUXO COLABORATIVO E GESTÃO DE ERROS
+   [ ] Comprovação de uso dos comandos de correção (git restore / git commit --amend).
+   [ ] Uso do git stash e git clean comprovado durante o processo de desenvolvimento.
+   [ ] Contribuição via FORK e PULL REQUEST aprovada e mesclada no GitHub.
+   [ ] Uso de git rebase para alinhamento e manutenção do histórico linear.
+
+4. RESOLUÇÃO DE CONFLITOS E INTEGRIDADE
+   [ ] Conflito gerado intencionalmente na mesma linha entre branches divergentes.
+   [ ] Resolução manual do conflito efetuada com sucesso e sem perda de código das partes.
+   [ ] Remoção TOTAL dos marcadores de conflito (<<<<<<<, |||||||, =======, >>>>>>>).
+   [ ] Software final compilando/executando sem erros de sintaxe na branch main.
+
+---------------------------------------------------------------------------------
+PARECER FINAL DA AUDITORIA:
+[ ] APROVADO - A dupla executora demonstrou domínio completo dos conceitos e comandos.
+[ ] COM RESTRIÇÕES - A atividade foi entregue, mas apresentou falhas pontuais listadas abaixo.
+[ ] REPROVADO - A entrega não cumpriu os requisitos mínimos do fluxo Git/GitHub.
+
+OBSERVAÇÕES DA DUPLA AUDITORA:
+_________________________________________________________________________________
+_________________________________________________________________________________
+_________________________________________________________________________________
+
+Assinatura da Dupla Auditora: _______________________ / _______________________
+=================================================================================
